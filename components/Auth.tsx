@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 export default function Auth({ isRegister }: { isRegister: boolean }) {
   GoogleSignin.configure({
@@ -50,6 +51,7 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
     if (error) Alert.alert(error.message);
     if (!session)
       Alert.alert("Please check your inbox for email verification!");
+    if (session) router.replace("/(account)");
     setLoading(false);
   }
   const signInWithGoogle = async () => {
@@ -61,6 +63,7 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
           provider: "google",
           token: userInfo.idToken,
         });
+        if (data) router.replace("/(account)");
       } else {
         throw new Error("no ID token present!");
       }
@@ -100,20 +103,24 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
         value={password}
         placeholder="Password"
       />
-      {!isRegister && <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button
-          title="Sign in"
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
-      </View>}
-      {isRegister && <View style={styles.verticallySpaced}>
-        <Button
-          title="Sign up"
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
-      </View>}
+      {!isRegister && (
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <Button
+            title="Sign in"
+            disabled={loading}
+            onPress={() => signInWithEmail()}
+          />
+        </View>
+      )}
+      {isRegister && (
+        <View style={styles.verticallySpaced}>
+          <Button
+            title="Sign up"
+            disabled={loading}
+            onPress={() => signUpWithEmail()}
+          />
+        </View>
+      )}
       <TouchableOpacity
         style={styles.socialMediaButton}
         onPress={signInWithGoogle}

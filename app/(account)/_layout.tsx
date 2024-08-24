@@ -4,16 +4,17 @@ import React, { useEffect } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-
-import {  useSelector } from "react-redux";
+import "react-native-url-polyfill/auto";
+import "react-native-reanimated";
+import { useSelector } from "react-redux";
 
 export default function TabLayout() {
   const { user } = useSelector((state: any) => state.authentication) || {};
   const colorScheme = useColorScheme();
 
-  if(user){
-    return <Redirect href="/(account)" />
-  }
+    if (!user) {
+      <Redirect href="/(tabs)" />
+    }
 
   return (
     <Tabs
@@ -25,24 +26,24 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Login",
+          title: "Home",
 
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "person-circle" : "person-circle-outline"}
+              name={focused ? "home" : "home-outline"}
               color={color}
             />
           ),
         }}
       />
       <Tabs.Screen
-        name="register"
+        name="settings"
         options={{
-          title: "Register",
+          title: "Settings",
 
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "person-add" : "person-add-outline"}
+              name={focused ? "settings" : "settings-outline"}
               color={color}
             />
           ),
