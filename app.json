@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.hundred_every_day_app"
     },
     "web": {
       "bundler": "metro",
@@ -28,10 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin",
-      {
-        "iosUrlScheme": "com.googleusercontent.apps.377510755690-01vjh0ehlqkk4snk4vdcphiijn6kftmb"
-      }
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
