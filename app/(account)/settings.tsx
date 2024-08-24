@@ -1,18 +1,26 @@
-import { supabase } from '@/lib/supabase'
-import { router } from 'expo-router'
-import React from 'react'
-import { Button, Text, View } from 'react-native'
+import { supabase } from "@/lib/supabase";
+import { router } from "expo-router";
+import React from "react";
+import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 export default function settings() {
   const signOutHandler = async () => {
-    await supabase.auth.signOut()
-    router.replace("/(tabs)")
-  }
-  
+    await supabase.auth.signOut();
+    router.replace("/(tabs)");
+  };
+
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Text>Settings</Text>
       <Button title="Sign Out" onPress={signOutHandler} />
-    </View>
-  )
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 16,
+    marginTop: 60,
+  },
+});
