@@ -1,8 +1,8 @@
 // src/features/example/exampleSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const authentication = createSlice({
-  name: 'authentication',
+  name: "authentication",
   initialState: {
     user: null,
   },
@@ -10,8 +10,6 @@ export const authentication = createSlice({
     setUser: (state, payload: any | object) => {
       state.user = payload;
     },
-   
-    
   },
 });
 
