@@ -6,9 +6,12 @@ export default function Training({
   typeOfTraining,
   currentReps,
   maxReps,
+  updateValueHandler,
 }: TrainingProps) {
   const [currentValue, setCurrentValue] = useState("10");
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    updateValueHandler(typeOfTraining, currentValue);
+  };
 
   const changeValueHandler = (value: number, type: typeOfValueCounter) => {
     if (type === typeOfValueCounter.minus) {
