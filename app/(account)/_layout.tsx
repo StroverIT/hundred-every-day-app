@@ -1,5 +1,5 @@
-import { Redirect, Tabs, router } from "expo-router";
-import React, { useEffect } from "react";
+import { Redirect, Tabs } from "expo-router";
+import React  from "react";
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
@@ -10,12 +10,13 @@ import { useSelector } from "react-redux";
 
 export default function TabLayout() {
   const { user } = useSelector((state: any) => state.authentication) || {};
+  
   const colorScheme = useColorScheme();
 
-    if (!user) {
-      <Redirect href="/(tabs)" />
-    }
-
+  if (!user) {
+    return <Redirect href="/(tabs)" />;
+  }
+  
   return (
     <Tabs
       screenOptions={{
