@@ -62,7 +62,7 @@ export default function index() {
   return (
     <SafeAreaView style={styles.container}>
       <Button
-        title="Toggle calendar"
+        title="CALENDAR"
         onPress={() => setCalendarOpen(!isCalendarOpen)}
       />
 
