@@ -54,6 +54,7 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
     if (session) router.replace("/(account)");
     setLoading(false);
   }
+  
   const signInWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -63,12 +64,13 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
           provider: "google",
           token: userInfo.idToken,
         });
+        
         if (data) router.replace("/(account)");
       } else {
         throw new Error("no ID token present!");
       }
     } catch (error) {
-      console.log("error", error);
+      console.log("error catch", error);
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.SIGN_IN_CANCELLED:
