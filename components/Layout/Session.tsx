@@ -16,11 +16,11 @@ export default function Session() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      dispatch(setUser(session?.user as any));
+      dispatch(setUser(session?.user as any || null));
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      dispatch(setUser(session?.user as any));
+      dispatch(setUser(session?.user as any || null));
     });
   }, []);
 
