@@ -195,6 +195,8 @@ dependencies {
     }
     
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
 }
 
 if (rnVersion < versionToNumber(0, 75, 0)) {
