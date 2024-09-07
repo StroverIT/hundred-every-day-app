@@ -12,7 +12,6 @@
     "lint": "expo lint",
     "reverseProxy": "adb reverse tcp:54321 tcp:54321",
     "gradclean": "cd android && ./gradlew clean && cd .."
-
   },
   "jest": {
     "preset": "jest-expo"
