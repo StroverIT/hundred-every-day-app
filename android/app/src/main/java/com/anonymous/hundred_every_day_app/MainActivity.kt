@@ -42,7 +42,7 @@ class MainActivity : ReactActivity() {
       val sharedPreferences = context.getSharedPreferences("timer", Context.MODE_PRIVATE).getString("timer", null)
       var hour = 8
       var minute = 0
-      
+
       if(sharedPreferences != null){
         val res = sharedPreferences.split(":")
         hour = res[0].toInt()
