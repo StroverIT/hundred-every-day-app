@@ -11,15 +11,11 @@ import {
   View,
 } from "react-native";
 import * as Notifications from "expo-notifications";
-import { createTimer, getTimer, updateTimer } from "@/API/timer";
-import { useSelector } from "react-redux";
-import { convertToTwoDigest } from "@/components/utils/time";
+import { createTimer, getTimer, updateTimer } from "@/lib/nativeModules/timer";
 
 const defaultTimerValue = "10:00";
 
 export default function settings() {
-  const { user } = useSelector((state: any) => state.authentication) || {};
-
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
   const [currentTimer, setCurrentTimer] = useState("19:00");
   const [isTimerChanger, setTimerChanger] = useState(false);
@@ -39,28 +35,11 @@ export default function settings() {
   };
 
   const submitTimerHandler = async () => {
-    let resHour, resMinute;
 
-    if (isTimerExisting) {
-      const resData =
-        (await updateTimer({
-          userId: user.id,
-          timer: hour,
-        })) || {};
-      resHour = resData.hour;
-      resMinute = resData.minute;
-    } else if (!isTimerExisting) {
-      const resData =
-        (await createTimer({
-          userId: user.id,
-          timer: hour,
-        })) || {};
-      resHour = resData.hour;
-      resMinute = resData.minute;
-    }
-    const converted = convertToTwoDigest(resHour, resMinute)
-
-    setCurrentTimer(converted);
+    if (isTimerExisting) updateTimer(hour);
+    else if (!isTimerExisting) createTimer(hour)
+    
+    setCurrentTimer(hour);
     setHour(defaultTimerValue);
     setTimerChanger(false);
   };
@@ -96,9 +75,9 @@ export default function settings() {
         await Notifications.getPermissionsAsync();
       if (existingStatus === "granted") {
         setIsPermissionGranted(true);
-        const { hour, minute } = (await getTimer(user.id)) || {};
-        if (hour) {
-          setCurrentTimer(convertToTwoDigest(hour, minute));
+        const timer = await getTimer();
+        if (timer) {
+          setCurrentTimer(timer);
           setIsTimerExisting(true);
         }
       }
