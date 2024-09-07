@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "hundred_every_day_app",
-    "slug": "hundred_every_day_app",
+    "name": "Hundred everyday",
+    "slug": "Be better everyday",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "hudredeveryday",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
