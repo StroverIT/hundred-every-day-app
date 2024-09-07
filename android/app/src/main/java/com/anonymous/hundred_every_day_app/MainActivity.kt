@@ -24,9 +24,10 @@ class MainActivity : ReactActivity() {
     // Set the theme to AppTheme BEFORE onCreate to support
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
-    setTheme(R.style.AppTheme);
+    setTheme(R.style.AppTheme); // This is explo splash loading icon I THINK
     super.onCreate(null)
     scheduleDailyNotification(this)
+    GetContext.setContext(this)
   }
 
   /**
@@ -37,8 +38,18 @@ class MainActivity : ReactActivity() {
 
   companion object {
     fun scheduleDailyNotification(context: Context) {
-        // val supabase = SupabaseClientManager.getInstance().supabaseClient
 
+      val sharedPreferences = context.getSharedPreferences("timer", Context.MODE_PRIVATE).getString("timer", null)
+      var hour = 8
+      var minute = 0
+      
+      if(sharedPreferences != null){
+        val res = sharedPreferences.split(":")
+        hour = res[0].toInt()
+        minute = res[1].toInt()
+      }
+      Log.d("AlarmManager", "Hour: $hour, Minute: $minute, SharedPref: $sharedPreferences")
+      
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, WorkoutNotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
@@ -48,8 +59,8 @@ class MainActivity : ReactActivity() {
         // Set the alarm to start exactly at 8 AM
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 16)  // Set to 8 AM
-            set(Calendar.MINUTE, 32)
+            set(Calendar.HOUR_OF_DAY, hour)  // Set to 8 AM
+            set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
