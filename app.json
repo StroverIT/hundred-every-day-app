@@ -8,7 +8,7 @@
     "scheme": "hudredeveryday",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash-screen.png",
+      "image": "./assets/images/splash-screen-1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
