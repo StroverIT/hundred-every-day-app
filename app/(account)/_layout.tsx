@@ -9,15 +9,11 @@ import "react-native-url-polyfill/auto";
 import "react-native-reanimated";
 import { useSelector } from "react-redux";
 
-
-
-
 export default function TabLayout() {
   const { user } = useSelector((state: any) => state.authentication) || {};
   
   const colorScheme = useColorScheme();
 
-  
   if (!user) {
     return <Redirect href="/(tabs)" />;
   }
