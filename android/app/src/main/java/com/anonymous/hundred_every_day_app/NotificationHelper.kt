@@ -2,7 +2,9 @@ package com.anonymous.hundred_every_day_app
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import android.util.Log
@@ -15,11 +17,21 @@ class NotificationHelper(val context: Context) {
     fun createNotification(title: String, message: String) {
         createNotificationChannel()
 
+
+         // Create an Intent to open the MainActivity when the notification is clicked
+         val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_launcher) // Replace with your icon
+            .setSmallIcon(R.drawable.ic_logo) // Replace with your icon
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
         val notificationManager = NotificationManagerCompat.from(context)
