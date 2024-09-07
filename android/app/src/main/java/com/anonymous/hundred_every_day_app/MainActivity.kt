@@ -18,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 import android.util.Log
 
-
 class MainActivity : ReactActivity() {
+
   override fun onCreate(savedInstanceState: Bundle?) {
     // Set the theme to AppTheme BEFORE onCreate to support
     // coloring the background, status bar, and navigation bar.
@@ -37,6 +37,8 @@ class MainActivity : ReactActivity() {
 
   companion object {
     fun scheduleDailyNotification(context: Context) {
+        // val supabase = SupabaseClientManager.getInstance().supabaseClient
+
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, WorkoutNotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(

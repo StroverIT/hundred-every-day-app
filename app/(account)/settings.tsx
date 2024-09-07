@@ -1,18 +1,201 @@
 import { supabase } from "@/lib/supabase";
+import { Input } from "@rneui/themed";
 import { router } from "expo-router";
-import React from "react";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from "react-native";
+import * as Notifications from "expo-notifications";
+import { createTimer, getTimer, updateTimer } from "@/API/timer";
+import { useSelector } from "react-redux";
+import { convertToTwoDigest } from "@/components/utils/time";
+
+const defaultTimerValue = "10:00";
 
 export default function settings() {
+  const { user } = useSelector((state: any) => state.authentication) || {};
+
+  const [isPermissionGranted, setIsPermissionGranted] = useState(false);
+  const [currentTimer, setCurrentTimer] = useState("19:00");
+  const [isTimerChanger, setTimerChanger] = useState(false);
+  const [hour, setHour] = useState(defaultTimerValue);
+  const [prevHour, setPrevHour] = useState(defaultTimerValue);
+  const [isTimerExisting, setIsTimerExisting] = useState(false);
+
+  const toggleSwitch = async () => {
+    if (!isPermissionGranted) await Notifications.requestPermissionsAsync();
+
+    setIsPermissionGranted((previousState) => !previousState);
+  };
+
   const signOutHandler = async () => {
     await supabase.auth.signOut();
     router.replace("/(tabs)");
   };
 
+  const submitTimerHandler = async () => {
+    let resHour, resMinute;
+
+    if (isTimerExisting) {
+      const resData =
+        (await updateTimer({
+          userId: user.id,
+          timer: hour,
+        })) || {};
+      resHour = resData.hour;
+      resMinute = resData.minute;
+    } else if (!isTimerExisting) {
+      const resData =
+        (await createTimer({
+          userId: user.id,
+          timer: hour,
+        })) || {};
+      resHour = resData.hour;
+      resMinute = resData.minute;
+    }
+    const converted = convertToTwoDigest(resHour, resMinute)
+
+    setCurrentTimer(converted);
+    setHour(defaultTimerValue);
+    setTimerChanger(false);
+  };
+
+  const cancelTimerHandler = async () => {
+    setHour(defaultTimerValue);
+    setTimerChanger(false);
+  };
+
+  const onChangeHandler = (text: string) => {
+    let newText = text;
+    if (newText.length == 1) {
+      const newTextToNumber = +newText;
+      if (
+        newTextToNumber < 10 &&
+        newTextToNumber != 0 &&
+        newTextToNumber != 1
+      ) {
+        newText = "0" + newText.toString();
+      }
+    }
+
+    if (newText.length == 2 && prevHour[2] != ":") {
+      newText = newText + ":";
+    }
+
+    setHour(newText.replace(".", ":"));
+  };
+
+  useEffect(() => {
+    const initial = async () => {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      if (existingStatus === "granted") {
+        setIsPermissionGranted(true);
+        const { hour, minute } = (await getTimer(user.id)) || {};
+        if (hour) {
+          setCurrentTimer(convertToTwoDigest(hour, minute));
+          setIsTimerExisting(true);
+        }
+      }
+    };
+
+    initial();
+  }, []);
+
+  useEffect(() => {
+    setPrevHour(hour);
+  }, [hour]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Settings</Text>
-      <Button title="Sign Out" onPress={signOutHandler} />
+      <View
+        style={{
+          gap: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Button title="Sign Out" onPress={signOutHandler} />
+        <View
+          style={{
+            flexDirection: "row", // Align items in a row
+            alignItems: "center", // Center items vertically
+            justifyContent: "space-between", // Distribute space evenly
+            gap: 10, // Add some space between the elements
+          }}
+        >
+          {/* TODO: Must be show when is denied */}
+          <Text>Notifications:</Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isPermissionGranted ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isPermissionGranted}
+          />
+        </View>
+        {isPermissionGranted && (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <View
+              style={{
+                width: "40%",
+              }}
+            >
+              <Button
+                title="Set new timer"
+                onPress={() =>
+                  setTimerChanger((previousState) => !previousState)
+                }
+              />
+            </View>
+            <Text>Current timer: {currentTimer}</Text>
+          </View>
+        )}
+      </View>
+
+      {isTimerChanger && (
+        <View style={styles.mt10}>
+          <Text
+            style={{
+              marginBottom: 10,
+            }}
+          >
+            Timer format 20:00
+          </Text>
+          <Input
+            label="Set hour"
+            placeholder="0"
+            keyboardType="numeric"
+            value={hour}
+            onChangeText={onChangeHandler}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 10,
+            }}
+          >
+            <Button
+              title="Set timer"
+              color={"green"}
+              onPress={submitTimerHandler}
+            />
+            <Button title="Cancel" color={"red"} onPress={cancelTimerHandler} />
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -22,5 +205,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 16,
     marginTop: 60,
+  },
+  mt10: {
+    marginTop: 10,
   },
 });
