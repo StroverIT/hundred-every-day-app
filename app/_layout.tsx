@@ -3,16 +3,14 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Session from "@/components/Layout/Session";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import Constants from "expo-constants";
 import { registerForPushNotificationsAsync } from "@/lib/expo-notifications";
-import { Platform } from "react-native";
 import { LogLevel, OneSignal } from "react-native-onesignal";
+
+SplashScreen.preventAutoHideAsync();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
