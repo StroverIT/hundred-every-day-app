@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Hundred everyday",
-    "slug": "Be better everyday",
+    "slug": "hundred-every-day-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -33,6 +33,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "db469864-3e73-429a-9113-b577deae331d"
+      }
     }
   }
 }
