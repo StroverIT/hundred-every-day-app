@@ -21,8 +21,6 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
-
-
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -34,8 +32,8 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    registerForPushNotificationsAsync()
-       
+    registerForPushNotificationsAsync();
+
     // Remove this method to stop OneSignal Debugging
     OneSignal.Debug.setLogLevel(LogLevel.Verbose);
 
@@ -50,9 +48,8 @@ export default function RootLayout() {
     OneSignal.Notifications.addEventListener("click", (event) => {
       console.log("OneSignal: notification clicked:", event);
     });
-
-    
   }, []);
+
   if (!loaded) {
     return null;
   }
