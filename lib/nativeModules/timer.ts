@@ -2,12 +2,9 @@ import { NativeModules } from "react-native";
 
 const { StorageModule } = NativeModules;
 
-export const createTimer = (hour: string) => {
+export const createTimer = (time: string) => {
   try {
-    let [hourValue, minuteValue] = hour.split(":");
-    if (!minuteValue) minuteValue = "00";
-
-    StorageModule.create("timer", `${hourValue}:${minuteValue}`);
+    StorageModule.create("timer", time);
   } catch (e) {
     return null;
   }
@@ -29,12 +26,9 @@ export const getTimer = async () => {
   }
 };
 
-export const updateTimer = (hour: string) => {
+export const updateTimer = (timer: string) => {
   try {
-    let [hourValue, minuteValue] = hour.split(":");
-    if (!minuteValue) minuteValue = "00";
-
-    StorageModule.update("timer", `${hourValue}:${minuteValue}`);
+    StorageModule.update("timer", timer);
   } catch (e) {
     return null;
   }

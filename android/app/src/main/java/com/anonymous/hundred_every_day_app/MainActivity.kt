@@ -42,11 +42,13 @@ class MainActivity : ReactActivity() {
       val sharedPreferences = context.getSharedPreferences("timer", Context.MODE_PRIVATE).getString("timer", null)
       var hour = 8
       var minute = 0
+      var second = 0
 
       if(sharedPreferences != null){
         val res = sharedPreferences.split(":")
         hour = res[0].toInt()
         minute = res[1].toInt()
+        second = res[2].toInt()
       }
       Log.d("AlarmManager", "Hour: $hour, Minute: $minute, SharedPref: $sharedPreferences")
       
@@ -61,7 +63,7 @@ class MainActivity : ReactActivity() {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, hour)  // Set to 8 AM
             set(Calendar.MINUTE, minute)
-            set(Calendar.SECOND, 0)
+            set(Calendar.SECOND, second)
             set(Calendar.MILLISECOND, 0)
         }
 

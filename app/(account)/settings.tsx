@@ -12,21 +12,19 @@ import {
 } from "react-native";
 import * as Notifications from "expo-notifications";
 import { createTimer, getTimer, updateTimer } from "@/lib/nativeModules/timer";
-
-const defaultTimerValue = "10:00";
+import TimePicker from "@/components/generic/TimePicker/TimePicker";
 
 export default function settings() {
   const [isPermissionGranted, setIsPermissionGranted] = useState(false);
   const [currentTimer, setCurrentTimer] = useState("19:00");
-  const [isTimerChanger, setTimerChanger] = useState(false);
-  const [hour, setHour] = useState(defaultTimerValue);
-  const [prevHour, setPrevHour] = useState(defaultTimerValue);
   const [isTimerExisting, setIsTimerExisting] = useState(false);
+
+  const [showPicker, setShowPicker] = useState(false);
 
   const toggleSwitch = async () => {
     if (!isPermissionGranted) await Notifications.requestPermissionsAsync();
 
-    setIsPermissionGranted((previousState) => !previousState);
+    setIsPermissionGranted((previousState: boolean) => !previousState);
   };
 
   const signOutHandler = async () => {
@@ -34,39 +32,10 @@ export default function settings() {
     router.replace("/(tabs)");
   };
 
-  const submitTimerHandler = async () => {
-
-    if (isTimerExisting) updateTimer(hour);
-    else if (!isTimerExisting) createTimer(hour)
-    
-    setCurrentTimer(hour);
-    setHour(defaultTimerValue);
-    setTimerChanger(false);
-  };
-
-  const cancelTimerHandler = async () => {
-    setHour(defaultTimerValue);
-    setTimerChanger(false);
-  };
-
-  const onChangeHandler = (text: string) => {
-    let newText = text;
-    if (newText.length == 1) {
-      const newTextToNumber = +newText;
-      if (
-        newTextToNumber < 10 &&
-        newTextToNumber != 0 &&
-        newTextToNumber != 1
-      ) {
-        newText = "0" + newText.toString();
-      }
-    }
-
-    if (newText.length == 2 && prevHour[2] != ":") {
-      newText = newText + ":";
-    }
-
-    setHour(newText.replace(".", ":"));
+  const submitTimerHandler = async (time: string) => {
+    if (isTimerExisting) updateTimer(time);
+    else if (!isTimerExisting) createTimer(time);
+    setCurrentTimer(time);
   };
 
   useEffect(() => {
@@ -85,10 +54,6 @@ export default function settings() {
 
     initial();
   }, []);
-
-  useEffect(() => {
-    setPrevHour(hour);
-  }, [hour]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,55 +91,23 @@ export default function settings() {
               gap: 10,
             }}
           >
-            <View
+            <TimePicker
+              showPicker={showPicker}
+              setShowPicker={setShowPicker}
+              submitTimerHandler={submitTimerHandler}
+            />
+
+            <Text
               style={{
-                width: "40%",
+                fontSize: 17,
+                paddingTop: 20,
               }}
             >
-              <Button
-                title="Set new timer"
-                onPress={() =>
-                  setTimerChanger((previousState) => !previousState)
-                }
-              />
-            </View>
-            <Text>Current timer: {currentTimer}</Text>
+              Current timer: {currentTimer}
+            </Text>
           </View>
         )}
       </View>
-
-      {isTimerChanger && (
-        <View style={styles.mt10}>
-          <Text
-            style={{
-              marginBottom: 10,
-            }}
-          >
-            Timer format 20:00
-          </Text>
-          <Input
-            label="Set hour"
-            placeholder="0"
-            keyboardType="numeric"
-            value={hour}
-            onChangeText={onChangeHandler}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 10,
-            }}
-          >
-            <Button
-              title="Set timer"
-              color={"green"}
-              onPress={submitTimerHandler}
-            />
-            <Button title="Cancel" color={"red"} onPress={cancelTimerHandler} />
-          </View>
-        </View>
-      )}
     </SafeAreaView>
   );
 }
