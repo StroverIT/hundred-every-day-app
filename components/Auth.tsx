@@ -70,7 +70,7 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
         throw new Error("no ID token present!");
       }
     } catch (error) {
-      console.log("error catch", error);
+      console.log("error catch", JSON.stringify(error));
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.SIGN_IN_CANCELLED:
