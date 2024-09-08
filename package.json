@@ -11,7 +11,11 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "reverseProxy": "adb reverse tcp:54321 tcp:54321",
-    "gradclean": "cd android && ./gradlew clean && cd .."
+    "gradclean": "cd android && ./gradlew clean && cd ..",
+    "build:android": "npx eas-cli build -p android --profile preview --local",
+    "bundle:android": "bundletool build-apks --bundle={buildName} --output=expo-router-typescript.apks",
+    "install-apks": "bundletool install-apks --apks=expo-router-typescript.apks"
+
   },
   "jest": {
     "preset": "jest-expo"
