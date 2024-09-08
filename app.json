@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "hudredeveryday",
+    "scheme": "com.anonymous.hundred_every_day_app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash-screen-1.png",
