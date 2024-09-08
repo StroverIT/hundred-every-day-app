@@ -86,7 +86,7 @@ enabled = true
 # in emails.
 site_url = "http://127.0.0.1:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+additional_redirect_urls = ["https://127.0.0.1:3000", "com.anonymous.hundred_every_day_app://**", "exp://**"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # If disabled, the refresh token will never expire.
@@ -186,7 +186,7 @@ client_id = "377510755690-fd6ohgfaigu0o45hcu4aar1q7mok5h19.apps.googleuserconten
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
 secret = "blabla"
 # Overrides the default auth redirectUrl.
-redirect_uri = ""
+redirect_uri = "https://adkcnvzrpfaldoeigyqo.supabase.co/auth/v1/callback"
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""
