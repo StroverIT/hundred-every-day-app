@@ -184,7 +184,7 @@ verify_enabled = true
 enabled = true
 client_id = "377510755690-fd6ohgfaigu0o45hcu4aar1q7mok5h19.apps.googleusercontent.com"
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
-secret = "env(EXPO_PUBLIC_JWT_SECRET)"
+secret = "blabla"
 # Overrides the default auth redirectUrl.
 redirect_uri = "https://adkcnvzrpfaldoeigyqo.supabase.co/auth/v1/callback"
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
