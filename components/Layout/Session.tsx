@@ -16,19 +16,19 @@ export default function Session() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      dispatch(setUser(session?.user as any || null));
+      dispatch(setUser((session?.user as any) || null));
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      dispatch(setUser(session?.user as any || null));
+      dispatch(setUser((session?.user as any) || null));
     });
   }, []);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(account)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(account)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
