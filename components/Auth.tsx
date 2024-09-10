@@ -16,12 +16,14 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 
+GoogleSignin.configure({
+  scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
+  webClientId:
+    "377510755690-fd6ohgfaigu0o45hcu4aar1q7mok5h19.apps.googleusercontent.com", // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
+});
+
 export default function Auth({ isRegister }: { isRegister: boolean }) {
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"], // what API you want to access on behalf of the user, default is email and profile
-    webClientId:
-      "377510755690-fd6ohgfaigu0o45hcu4aar1q7mok5h19.apps.googleusercontent.com", // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-  });
+ 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,17 +42,16 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
 
   async function signUpWithEmail() {
     setLoading(true);
+    console.log("auth text", email, password);
     const {
       data: { session },
       error,
     } = await supabase.auth.signUp({
-      email: email,
-      password: password,
+      email,
+      password,
     });
 
-    if (error) Alert.alert(error.message);
-    if (!session)
-      Alert.alert("Please check your inbox for email verification!");
+    if (error) Alert.alert(error.message);   
     if (session) router.replace("/(account)");
     setLoading(false);
   }
@@ -104,6 +105,7 @@ export default function Auth({ isRegister }: { isRegister: boolean }) {
         onChangeText={(text) => setPassword(text)}
         value={password}
         placeholder="Password"
+        secureTextEntry={true}
       />
       {!isRegister && (
         <View style={[styles.verticallySpaced, styles.mt20]}>
