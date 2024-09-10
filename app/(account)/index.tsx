@@ -9,7 +9,7 @@ import { defaultFormatDate } from "@/components/types/dates";
 import { useAppSelector } from "@/components/types/generic";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Button, SafeAreaView, StyleSheet } from "react-native";
+import { Button, SafeAreaView, StyleSheet, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
 
 export default function index() {
@@ -31,6 +31,10 @@ export default function index() {
     },
   });
 
+  const isTrainingFinished = Object.values(trainingData).every(
+    (training) => training.currentReps >= training.maxReps
+  );
+
   const updateValueHandler: updateValueHandlerType = (type, increment) => {
     const newValue = parseInt(increment) + trainingData[type].currentReps;
 
@@ -40,7 +44,7 @@ export default function index() {
       type: trainingTypesUpdate[type],
       increment: newValue,
     });
-    
+
     setTrainingData((prev) => ({
       ...prev,
       [type]: {
@@ -79,24 +83,41 @@ export default function index() {
           }}
         />
       )}
-      <Training
-        typeOfTraining={trainingTypes.pushUps}
-        currentReps={trainingData[trainingTypes.pushUps].currentReps}
-        maxReps={trainingData[trainingTypes.pushUps].maxReps}
-        updateValueHandler={updateValueHandler}
-      />
-      <Training
-        typeOfTraining={trainingTypes.sitUps}
-        currentReps={trainingData[trainingTypes.sitUps].currentReps}
-        maxReps={trainingData[trainingTypes.sitUps].maxReps}
-        updateValueHandler={updateValueHandler}
-      />
-      <Training
-        typeOfTraining={trainingTypes.crunches}
-        currentReps={trainingData[trainingTypes.crunches].currentReps}
-        maxReps={trainingData[trainingTypes.crunches].maxReps}
-        updateValueHandler={updateValueHandler}
-      />
+      
+      {!isTrainingFinished && (
+        <>
+          <Training
+            typeOfTraining={trainingTypes.pushUps}
+            currentReps={trainingData[trainingTypes.pushUps].currentReps}
+            maxReps={trainingData[trainingTypes.pushUps].maxReps}
+            updateValueHandler={updateValueHandler}
+          />
+          <Training
+            typeOfTraining={trainingTypes.sitUps}
+            currentReps={trainingData[trainingTypes.sitUps].currentReps}
+            maxReps={trainingData[trainingTypes.sitUps].maxReps}
+            updateValueHandler={updateValueHandler}
+          />
+          <Training
+            typeOfTraining={trainingTypes.crunches}
+            currentReps={trainingData[trainingTypes.crunches].currentReps}
+            maxReps={trainingData[trainingTypes.crunches].maxReps}
+            updateValueHandler={updateValueHandler}
+          />
+        </>
+      )}
+      {isTrainingFinished && (
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 20,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          You finished the training for today. Congrats!
+        </Text>
+      )}
     </SafeAreaView>
   );
 }

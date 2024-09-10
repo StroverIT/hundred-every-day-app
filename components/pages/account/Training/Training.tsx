@@ -20,14 +20,16 @@ export default function Training({
   const [incrementValue, setIncrementValue] = useState(1);
   const handleSubmit = () => {
     Burnt.toast({
-      title: `Successfully updated ${typeOfTraining.toLocaleLowerCase()} to ${+currentValue + +currentReps}`, // required
+      title: `Successfully updated ${typeOfTraining.toLocaleLowerCase()} to ${
+        +currentValue + +currentReps
+      }`, // required
       preset: "done", // or "error", "none", "custom"
       haptic: "none", // or "success", "warning", "error"
       duration: 2, // duration in seconds
       shouldDismissByDrag: true,
       from: "top", // "top" or "bottom"
     });
-    
+
     updateValueHandler(typeOfTraining, currentValue);
   };
 
@@ -48,7 +50,6 @@ export default function Training({
 
   return (
     <View style={styles.container}>
-      
       <View
         style={{
           flexDirection: "row",
@@ -76,38 +77,46 @@ export default function Training({
         </Text>
       </View>
 
-      <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "space-between"}}>
+      {currentReps < maxReps && (
         <View
           style={{
+            marginTop: 20,
             flexDirection: "row",
-            marginBottom: 10,
-            position: "relative",
+            justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity
-            style={[styles.changeValue, styles.topValue]}
-            onPress={() =>
-              changeValueHandler(incrementValue, typeOfValueCounter.plus)
-            }
+          <View
+            style={{
+              flexDirection: "row",
+              marginBottom: 10,
+              position: "relative",
+            }}
           >
-            <Text style={styles.valueText}>+</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.changeValue, styles.topValue]}
+              onPress={() =>
+                changeValueHandler(incrementValue, typeOfValueCounter.plus)
+              }
+            >
+              <Text style={styles.valueText}>+</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.changeValue, styles.bottomValue]}>
-            <Text style={styles.valueText}>-</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={[styles.changeValue, styles.bottomValue]}>
+              <Text style={styles.valueText}>-</Text>
+            </TouchableOpacity>
 
-          <TextInput
-            style={styles.inputContainer}
-            value={currentValue}
-            keyboardType="numeric"
-            onChangeText={(text) => setCurrentValue(text)}
-          />
+            <TextInput
+              style={styles.inputContainer}
+              value={currentValue}
+              keyboardType="numeric"
+              onChangeText={(text) => setCurrentValue(text)}
+            />
+          </View>
+          <View style={styles.submitBtn}>
+            <Button title="Submit" onPress={handleSubmit} />
+          </View>
         </View>
-        <View style={styles.submitBtn}>
-          <Button title="Submit" onPress={handleSubmit} />
-        </View>
-      </View>
+      )}
     </View>
   );
 }
