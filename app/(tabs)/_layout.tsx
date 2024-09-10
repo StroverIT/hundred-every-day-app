@@ -5,10 +5,10 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
-import {  useSelector } from "react-redux";
+import { useAppSelector } from "@/components/types/generic";
 
 export default function TabLayout() {
-  const { user } = useSelector((state: any) => state.authentication) || {};
+  const { user } = useAppSelector((state: any) => state.authentication) || {};
   const colorScheme = useColorScheme();
 
   if(user){

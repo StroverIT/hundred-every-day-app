@@ -6,14 +6,14 @@ import {
   updateValueHandlerType,
 } from "@/components/pages/account/Training/types";
 import { defaultFormatDate } from "@/components/types/dates";
+import { useAppSelector } from "@/components/types/generic";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Button, SafeAreaView, StyleSheet } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { useSelector } from "react-redux";
 
 export default function index() {
-  const { user } = useSelector((state: any) => state.authentication) || {};
+  const { user } = useAppSelector((state: any) => state.authentication) || {};
   const [selected, setSelected] = useState(moment().format(defaultFormatDate));
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [trainingData, setTrainingData] = useState({
