@@ -29,11 +29,14 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "@supabase/supabase-js": "^2.45.2",
+    "burnt": "^0.12.2",
     "expo": "~51.0.31",
     "expo-av": "~14.0.7",
+    "expo-build-properties": "~0.12.5",
     "expo-constants": "~16.0.2",
     "expo-device": "~6.0.2",
     "expo-font": "~12.0.9",
+    "expo-haptics": "~13.0.1",
     "expo-linear-gradient": "~13.0.2",
     "expo-linking": "~6.3.1",
     "expo-notifications": "~0.28.16",
@@ -55,8 +58,7 @@
     "react-native-timer-picker": "^1.10.3",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
-    "react-redux": "^9.1.2",
-    "expo-haptics": "~13.0.1"
+    "react-redux": "^9.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
