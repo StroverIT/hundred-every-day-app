@@ -27,9 +27,11 @@ export default function Session() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack
-      screenOptions={{
-        headerShown: false,
-      }}>
+        initialRouteName="(tabs)"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(account)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
