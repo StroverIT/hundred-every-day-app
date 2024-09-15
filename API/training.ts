@@ -100,18 +100,19 @@ export const createTraining = async ({
     // @ts-ignore
     if (getPreviousTraining?.length > 0 && getPreviousTraining) {
       const previousTrainingFound = getPreviousTraining[0];
-      const pushUpsRepsLeft =
+
+      // Push ups
+      createData.pushUpsMaxReps +=
         previousTrainingFound?.pushUpsMaxReps -
         previousTrainingFound.pushUpsReps;
-      const sitUpsRepsLeft =
+      // Sit ups
+      createData.sitUpsMaxReps =
         previousTrainingFound?.sitUpsMaxReps - previousTrainingFound.sitUpsReps;
-      const crunchesRepsLeft =
+
+      // Crunches
+      createData.crunchesMaxReps =
         previousTrainingFound?.crunchesMaxReps -
         previousTrainingFound.crunchesReps;
-
-      if (pushUpsRepsLeft > 0) createData.pushUpsMaxReps += pushUpsRepsLeft;
-      if (sitUpsRepsLeft > 0) createData.sitUpsMaxReps += sitUpsRepsLeft;
-      if (crunchesRepsLeft > 0) createData.crunchesMaxReps += crunchesRepsLeft;
     }
 
     const { data } = await supabase
