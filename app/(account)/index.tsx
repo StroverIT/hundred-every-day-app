@@ -12,9 +12,13 @@ import React, { useEffect, useState } from "react";
 import { Button, SafeAreaView, StyleSheet, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
 
+const currentDay = moment();
+
 export default function index() {
   const { user } = useAppSelector((state: any) => state.authentication) || {};
-  const [selected, setSelected] = useState(moment().format(defaultFormatDate));
+  const [selected, setSelected] = useState(
+    currentDay.format(defaultFormatDate)
+  );
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [trainingData, setTrainingData] = useState({
     [trainingTypes.pushUps]: {
@@ -30,6 +34,8 @@ export default function index() {
       maxReps: 0,
     },
   });
+
+  const isFutureDay = moment(selected).isAfter(currentDay, "day");
 
   const isTrainingFinished = Object.values(trainingData).every(
     (training) => training.currentReps >= training.maxReps
@@ -55,12 +61,13 @@ export default function index() {
   };
 
   useEffect(() => {
-    getTraining({
-      userId: user.id,
+    !isFutureDay &&
+      getTraining({
+        userId: user.id,
 
-      selected,
-      setTrainingData,
-    });
+        selected,
+        setTrainingData,
+      });
   }, [selected]);
 
   return (
@@ -83,8 +90,13 @@ export default function index() {
           }}
         />
       )}
-      
-      {!isTrainingFinished && (
+      {isFutureDay && (
+        <Text style={styles.showUpText}>
+          Cannot create data for future date
+        </Text>
+      )}
+
+      {!isTrainingFinished && !isFutureDay && (
         <>
           <Training
             typeOfTraining={trainingTypes.pushUps}
@@ -106,15 +118,8 @@ export default function index() {
           />
         </>
       )}
-      {isTrainingFinished && (
-        <Text
-          style={{
-            textAlign: "center",
-            marginTop: 20,
-            fontSize: 20,
-            fontWeight: "bold",
-          }}
-        >
+      {isTrainingFinished && !isFutureDay && (
+        <Text style={styles.showUpText}>
           You finished the training for today. Congrats!
         </Text>
       )}
@@ -127,5 +132,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 16,
     marginTop: 60,
+  },
+  showUpText: {
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

@@ -53,6 +53,12 @@ export const createTraining = async ({
   selected,
 }: createTrainingType) => {
   try {
+    // // TODO: It's must if check current day is not finished yet, not to create for future days
+    // // Example:
+    // // It's 15 september and must not create for 16 september
+    // const isFutureDay = moment(selected).isAfter(moment(), "day");
+    // if (isFutureDay) return { error: "Future days are not allowed to create" };
+    
     const dateCreated = moment(selected);
     const dateOfWeek = dateCreated.format("dddd");
     const isRestDay = dateOfWeek === DateWeekType.Sunday;
