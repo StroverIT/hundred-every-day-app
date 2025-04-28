@@ -1,4 +1,4 @@
-import { getTraining, updateTraining } from "@/API/training";
+// import { getTraining, updateTraining } from "@/API/training";
 import Training from "@/components/pages/account/Training/Training";
 import {
   trainingTypes,
@@ -44,12 +44,12 @@ export default function index() {
   const updateValueHandler: updateValueHandlerType = (type, increment) => {
     const newValue = parseInt(increment) + trainingData[type].currentReps;
 
-    updateTraining({
-      userId: user.id,
-      selected,
-      type: trainingTypesUpdate[type],
-      increment: newValue,
-    });
+    // updateTraining({
+    //   userId: user.id,
+    //   selected,
+    //   type: trainingTypesUpdate[type],
+    //   increment: newValue,
+    // });
 
     setTrainingData((prev) => ({
       ...prev,
@@ -61,13 +61,12 @@ export default function index() {
   };
 
   useEffect(() => {
-    !isFutureDay &&
-      getTraining({
-        userId: user.id,
-
-        selected,
-        setTrainingData,
-      });
+    // !isFutureDay &&
+    // getTraining({
+    //   userId: user.id,
+    //   selected,
+    //   setTrainingData,
+    // });
   }, [selected]);
 
   return (

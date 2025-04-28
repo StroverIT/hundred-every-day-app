@@ -1,5 +1,3 @@
-import { supabase } from "@/lib/supabase";
-import { Input } from "@rneui/themed";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -28,7 +26,6 @@ export default function settings() {
   };
 
   const signOutHandler = async () => {
-    await supabase.auth.signOut();
     router.replace("/(tabs)");
   };
 
