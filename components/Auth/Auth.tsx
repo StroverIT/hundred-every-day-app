@@ -1,28 +1,20 @@
 import { Button } from "react-native";
-import React, { lazy, useState } from "react";
+import React from "react";
 import { Text, TextInput, View } from "react-native";
 // const GoogleSignIn = lazy(() => import("@/components/GoogleSignIn"));
 import { styles } from "./styles";
+import { useAuth } from "./Auth.hooks";
 
 export const Auth = ({ isRegister }: { isRegister: boolean }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function signInWithEmail() {
-    setLoading(true);
-
-    // if (error) Alert.alert(error.message);
-    setLoading(false);
-  }
-
-  async function signUpWithEmail() {
-    setLoading(true);
-
-    // if (error) Alert.alert(error.message);
-    // if (session) router.replace("/(account)");
-    setLoading(false);
-  }
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    loading,
+    signInWithEmail,
+    signUpWithEmail,
+  } = useAuth();
 
   return (
     <View>

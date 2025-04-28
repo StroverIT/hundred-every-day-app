@@ -1,13 +1,13 @@
-// src/features/example/exampleSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TUser } from "./types";
 
 export const authentication = createSlice({
   name: "authentication",
   initialState: {
-    user: null,
+    user: null as TUser | null,
   },
   reducers: {
-    setUser: (state, payload: any | object) => {
+    setUser: (state, payload: PayloadAction<TUser>) => {
       state.user = payload.payload;
     },
   },

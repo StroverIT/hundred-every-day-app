@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "reverseProxy": "adb reverse tcp:54321 tcp:54321",
+    "reverseProxy": "adb reverse tcp:5050 tcp:5050",
     "gradclean": "cd android && ./gradlew clean && cd ..",
     "build:android": "npx eas-cli build -p android --profile preview --local",
     "bundle:android": "bundletool build-apks --bundle={buildName} --output=expo-router-typescript.apks",
