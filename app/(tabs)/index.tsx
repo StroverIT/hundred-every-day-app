@@ -1,4 +1,4 @@
-import Auth from "@/components/Auth/Auth";
+import Auth from "@/components/Auth";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
