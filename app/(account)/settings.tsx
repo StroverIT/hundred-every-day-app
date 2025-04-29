@@ -26,6 +26,8 @@ export default function settings() {
   };
 
   const signOutHandler = async () => {
+    // Clear the user from the store
+    // Send for logout for JWT token
     router.replace("/(tabs)");
   };
 

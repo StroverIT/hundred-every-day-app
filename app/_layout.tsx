@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import "../global.css";
 
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
@@ -48,6 +49,10 @@ export default function RootLayout() {
     OneSignal.Notifications.addEventListener("click", (event) => {
       console.log("OneSignal: notification clicked:", event);
     });
+
+    // Maybe on initial is good to check if session is active
+    // If not, redirect to login
+    // If yes, redirect to home
   }, []);
 
   if (!loaded) {
