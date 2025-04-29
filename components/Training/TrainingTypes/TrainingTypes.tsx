@@ -1,16 +1,25 @@
 import { FC } from "react";
-import { Text, ScrollView } from "react-native";
+import { Text, FlatList, Dimensions } from "react-native";
 import { useTrainingContext } from "@/hooks/useTrainingContext/useTrainingContext";
+
+const windowHeight = Dimensions.get("window").height;
 
 export const TrainingTypes: FC = () => {
   const { trainingTypes } = useTrainingContext();
+
+  if (trainingTypes.length === 0) return null;
+
   return (
-    <ScrollView>
-      {trainingTypes.map((training) => (
-        <Text key={training._id}>
-          {training.name} {training.repetitions}
+    <FlatList
+      data={trainingTypes}
+      keyExtractor={(item) => item._id}
+      renderItem={({ item }) => (
+        <Text>
+          {item.name} {item.repetitions}
         </Text>
-      ))}
-    </ScrollView>
+      )}
+      contentContainerStyle={{ paddingBottom: 10 }}
+      style={{ height: windowHeight * 1 }}
+    />
   );
 };

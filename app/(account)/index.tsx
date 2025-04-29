@@ -8,7 +8,15 @@ import { TrainingProvider } from "@/hooks/useTrainingContext/useTrainingContext"
 import { TUserSchema } from "@/types/Models/User";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 
 const currentDay = moment();
@@ -56,12 +64,11 @@ export default function index() {
       isLoading={isLoading}
       setIsLoading={setIsLoading}
     >
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView className="flex-1 mx-4 mt-14 h-full">
         <Button
           title="CALENDAR"
           onPress={() => setCalendarOpen(!isCalendarOpen)}
         />
-
         {isCalendarOpen && (
           <Calendar
             onDayPress={(day: any) => {
@@ -75,26 +82,16 @@ export default function index() {
             }}
           />
         )}
-        <View className="mt-10">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+        >
           {isLoading && <Text>Зарежда се...</Text>}
           <TrainingTypes />
           {!isLoading && <CreateTraining />}
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </TrainingProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginHorizontal: 16,
-    marginTop: 60,
-  },
-  showUpText: {
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-});
