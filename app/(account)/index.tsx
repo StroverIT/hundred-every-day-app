@@ -83,7 +83,7 @@ export default function index() {
           />
         )}
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          className="flex-1 mt-4"
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
         >
